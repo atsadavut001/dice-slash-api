@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { S3Client, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
@@ -28,7 +28,7 @@ export class StorageService {
   async uploadImage(file: any, folder: string = 'images'): Promise<string> {
     try {
       const fileExt = file.originalname.split('.').pop();
-      const fileName = `${folder}/${uuidv4()}.${fileExt}`;
+      const fileName = `${folder}/${randomUUID()}.${fileExt}`;
 
       const command = new PutObjectCommand({
         Bucket: this.bucketName,
